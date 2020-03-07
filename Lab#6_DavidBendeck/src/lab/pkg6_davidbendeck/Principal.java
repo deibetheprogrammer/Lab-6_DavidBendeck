@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
@@ -520,8 +521,17 @@ public class Principal extends javax.swing.JFrame {
             guardarMensaje(newM, nombre);
         }
         
-        else {
-            
+        else if ("4".equals(tokens[tokens.length-2])){
+            String key = last;
+            mensaje = "";
+            for (int i = 0; i < tokens.length-2; i++) {
+                mensaje += tokens[i];
+            }
+            String newM = "";
+            newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
+            newM += easyCypher + cifrado4(mensaje,key);
+            TA_Mensajes_Chat.setText(newM);
+            guardarMensaje(newM, nombre);
         }
     }//GEN-LAST:event_B_Send_ChatMouseClicked
 
@@ -753,6 +763,48 @@ public class Principal extends javax.swing.JFrame {
                 }
             }
             message += word + " ";
+        }
+        
+        return message;
+    }
+    
+    public static String cifrado4(String mensaje, String key) {
+        
+        int l = key.length();
+        
+        String[] matrix = new String[l];
+        
+        char[] keyArray = key.toCharArray();
+        
+        Arrays.sort(keyArray);
+        
+        int[] numbers = new int[l];
+        
+        for (int i = 0; i < l; i++) {
+            numbers[i] = -1;
+        }
+        
+        for (int i = 0; i < l; i++) {
+            int j = 0;
+            while(keyArray[i] != key.charAt(j) || numbers[j] != -1) {
+                j++;
+            }
+            numbers[j] = i;
+        }
+        
+        mensaje = mensaje.replace(" ", "");
+        
+        char[] messageArray = mensaje.toCharArray();
+        
+        for (int i = 0; i < messageArray.length; i++) {
+            int j = i % l;
+            matrix[j] = matrix[j] + messageArray[i];
+        }
+        
+        String message = "";
+        
+        for (int i = 0; i < matrix.length; i++) {
+            message += matrix[i];
         }
         
         return message;
