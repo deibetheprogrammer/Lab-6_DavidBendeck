@@ -445,13 +445,12 @@ public class Principal extends javax.swing.JFrame {
         
         String temporal = mensaje.replace(" ", "");
         
-        mensaje = TA_Mensajes_Chat.getText();
-        
         String nombre = JOptionPane.showInputDialog(this, "Elija un nombre para su archivo de texto");
         
         char last = temporal.charAt(temporal.length()-1);
         
         if ("1".equals(last)) {
+            mensaje = TA_Mensajes_Chat.getText();
             mensaje = mensaje.replace("1", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
@@ -461,16 +460,23 @@ public class Principal extends javax.swing.JFrame {
         }
         
         else if ("2".equals(last)) {
-            mensaje = mensaje.replace("1", "");
+            mensaje = TA_Mensajes_Chat.getText();
+            mensaje = mensaje.replace("2", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
+            newM += easyCypher + cifrado2(mensaje);
+            TA_Mensajes_Chat.setText(newM);
+            guardarMensaje(newM, nombre);
         }
         
         else if ("3".equals(last)) {
-            mensaje = mensaje.replace("1", "");
+            mensaje = TA_Mensajes_Chat.getText();
+            mensaje = mensaje.replace("3", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
             newM += easyCypher + cifrado3(mensaje);
+            TA_Mensajes_Chat.setText(newM);
+            guardarMensaje(newM, nombre);
         }
     }//GEN-LAST:event_B_Send_ChatMouseClicked
 
@@ -638,6 +644,22 @@ public class Principal extends javax.swing.JFrame {
             }
         }
         
+        return message;
+    }
+    
+    public static String cifrado2 (String mensaje) {
+        String[] tokens = mensaje.split(" ");
+        String token,message = "";
+        
+        for (int i = 0; i < tokens.length; i++) {
+            char[] characters = tokens[i].toCharArray();
+            for (int j = 0; j < characters.length; j++) {
+                String piece = "";
+                int ascii = (int) characters[j];
+                piece += ascii;
+                message += piece + " ";
+            }
+        }
         return message;
     }
     
