@@ -58,6 +58,7 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         L_Usuarios_Chat = new javax.swing.JList<>();
         B_Send_Chat = new javax.swing.JButton();
+        TF_Teclado_Chat = new javax.swing.JTextField();
         D_logIn = new javax.swing.JDialog();
         P_LogIn = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -181,20 +182,29 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
+        TF_Teclado_Chat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TF_Teclado_ChatActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout P_ChatLayout = new javax.swing.GroupLayout(P_Chat);
         P_Chat.setLayout(P_ChatLayout);
         P_ChatLayout.setHorizontalGroup(
             P_ChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(P_ChatLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(115, 115, 115))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, P_ChatLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(B_Send_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(140, 140, 140))
+                .addGroup(P_ChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(P_ChatLayout.createSequentialGroup()
+                        .addComponent(TF_Teclado_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 509, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                        .addComponent(B_Send_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(140, 140, 140))
+                    .addGroup(P_ChatLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(115, 115, 115))))
         );
         P_ChatLayout.setVerticalGroup(
             P_ChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,7 +214,9 @@ public class Principal extends javax.swing.JFrame {
                     .addComponent(jScrollPane1)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE))
                 .addGap(52, 52, 52)
-                .addComponent(B_Send_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(P_ChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(B_Send_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(TF_Teclado_Chat, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(65, Short.MAX_VALUE))
         );
 
@@ -212,8 +224,8 @@ public class Principal extends javax.swing.JFrame {
         D_Chat.getContentPane().setLayout(D_ChatLayout);
         D_ChatLayout.setHorizontalGroup(
             D_ChatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, D_ChatLayout.createSequentialGroup()
-                .addContainerGap()
+            .addGroup(D_ChatLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
                 .addComponent(P_Chat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -301,6 +313,11 @@ public class Principal extends javax.swing.JFrame {
         jLabel1.setText("Inicio");
 
         B_LogIn.setText("Iniciar sesión");
+        B_LogIn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                B_LogInMouseClicked(evt);
+            }
+        });
 
         B_Register.setText("Registrarse");
         B_Register.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -389,15 +406,17 @@ public class Principal extends javax.swing.JFrame {
         Date current = new Date();
         
         if (current.getYear() - birthday.getYear() <= 13) {
+             JOptionPane.showMessageDialog(this, "Debes tener mas de 13 años para poder registrarte");
+            D_Register.setVisible(false);
+            
+        } else {
+         
             usuarios.add(new Usuario(nombre, nickname, password, birthday));
             guardarUsuarios(usuarios);
             D_logIn.pack();
             D_logIn.setModal(true);
             D_logIn.setVisible(true);
             
-            D_Register.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(this, "Debes tener mas de 13 años para poder registrarte");
             D_Register.setVisible(false);
         }
         
@@ -441,16 +460,16 @@ public class Principal extends javax.swing.JFrame {
         
         String easyCypher = "easyCypher: ";
         
-        String mensaje = TA_Mensajes_Chat.getText();
+        String mensaje = TF_Teclado_Chat.getText();
         
-        String temporal = mensaje.replace(" ", "");
+        String[] tokens = mensaje.split(" ");
         
         String nombre = JOptionPane.showInputDialog(this, "Elija un nombre para su archivo de texto");
         
-        char last = temporal.charAt(temporal.length()-1);
+        String last = tokens[tokens.length-1];
         
         if ("1".equals(last)) {
-            mensaje = TA_Mensajes_Chat.getText();
+            mensaje = TF_Teclado_Chat.getText();
             mensaje = mensaje.replace("1", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
@@ -460,7 +479,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         else if ("2".equals(last)) {
-            mensaje = TA_Mensajes_Chat.getText();
+            mensaje = TF_Teclado_Chat.getText();
             mensaje = mensaje.replace("2", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
@@ -470,7 +489,7 @@ public class Principal extends javax.swing.JFrame {
         }
         
         else if ("3".equals(last)) {
-            mensaje = TA_Mensajes_Chat.getText();
+            mensaje = TF_Teclado_Chat.getText();
             mensaje = mensaje.replace("3", "");
             String newM = "";
             newM += usuarioActual.getNickname() + ":" + " " + mensaje + "\n";
@@ -478,7 +497,23 @@ public class Principal extends javax.swing.JFrame {
             TA_Mensajes_Chat.setText(newM);
             guardarMensaje(newM, nombre);
         }
+        
+        else {
+            
+        }
     }//GEN-LAST:event_B_Send_ChatMouseClicked
+
+    private void TF_Teclado_ChatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TF_Teclado_ChatActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TF_Teclado_ChatActionPerformed
+
+    private void B_LogInMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_LogInMouseClicked
+        // TODO add your handling code here:
+        
+        D_logIn.pack();
+        D_logIn.setModal(true);
+        D_logIn.setVisible(true);
+    }//GEN-LAST:event_B_LogInMouseClicked
 
     /**
      * @param args the command line arguments
@@ -539,6 +574,7 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextField TF_Nickname_LogIn;
     private javax.swing.JTextField TF_Nickname_Register;
     private javax.swing.JTextField TF_Nombre_Register;
+    private javax.swing.JTextField TF_Teclado_Chat;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -592,7 +628,7 @@ public class Principal extends javax.swing.JFrame {
     
         public static int leerUsuarios(ArrayList<Usuario> usuarios) {
         int count = 0;
-        try(BufferedReader br = new BufferedReader(new FileReader("Clientes.txt"))) {
+        try(BufferedReader br = new BufferedReader(new FileReader("Users.txt"))) {
             String line;
             String[] tokens;
             SimpleDateFormat time = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy");
@@ -628,6 +664,7 @@ public class Principal extends javax.swing.JFrame {
                 char character = characters[j];
                 if (vocales.indexOf(character) != -1) {
                     index = vocales.indexOf(character);
+                    break;
                 }
             }
             
@@ -637,7 +674,7 @@ public class Principal extends javax.swing.JFrame {
             }
             
             else {
-                first = token.substring(0, index + 1);
+                first = token.substring(0, index);
                 rest = token.substring(index);
                 word = rest + first + "ay";
                 message += word + " ";
@@ -690,9 +727,9 @@ public class Principal extends javax.swing.JFrame {
                     word += characters[j];
                 }
             }
-            message += word;
+            message += word + " ";
         }
         
-        return mensaje;
+        return message;
     }
 }
