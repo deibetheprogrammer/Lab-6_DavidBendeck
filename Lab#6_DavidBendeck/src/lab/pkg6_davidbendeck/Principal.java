@@ -717,7 +717,7 @@ public class Principal extends javax.swing.JFrame {
             for (int j = 0; j < characters.length; j++) {
                 char character = characters[j];
                 if (vocales.indexOf(character) != -1) {
-                    index = vocales.indexOf(character);
+                    index = j;
                     break;
                 }
             }
