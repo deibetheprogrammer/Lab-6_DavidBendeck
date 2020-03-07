@@ -433,7 +433,7 @@ public class Principal extends javax.swing.JFrame {
                     usuarioActual = usuario;
                     
                     //Agregar usuarios a la lista de usuarios
-                    DefaultListModel modeloUsuarios = new DefaultListModel();
+                    DefaultListModel modeloUsuarios = (DefaultListModel) L_Usuarios_Chat.getModel();
                     
                     for (Usuario usuario1 : usuarios) {
                         modeloUsuarios.addElement(usuario1);
