@@ -350,6 +350,16 @@ public class Principal extends javax.swing.JFrame {
         });
 
         B_Salir.setText("Salir");
+        B_Salir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                B_SalirMouseClicked(evt);
+            }
+        });
+        B_Salir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                B_SalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -546,6 +556,15 @@ public class Principal extends javax.swing.JFrame {
         D_logIn.setModal(true);
         D_logIn.setVisible(true);
     }//GEN-LAST:event_B_LogInMouseClicked
+
+    private void B_SalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_B_SalirActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_B_SalirActionPerformed
+
+    private void B_SalirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_B_SalirMouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_B_SalirMouseClicked
 
     /**
      * @param args the command line arguments
@@ -782,6 +801,7 @@ public class Principal extends javax.swing.JFrame {
         
         for (int i = 0; i < l; i++) {
             numbers[i] = -1;
+            matrix[i]="";
         }
         
         for (int i = 0; i < l; i++) {
@@ -792,12 +812,12 @@ public class Principal extends javax.swing.JFrame {
             numbers[j] = i;
         }
         
-        mensaje = mensaje.replace(" ", "");
+        //mensaje = mensaje.replace(" ", "");
         
         char[] messageArray = mensaje.toCharArray();
         
         for (int i = 0; i < messageArray.length; i++) {
-            int j = i % l;
+            int j = numbers[i % l];
             matrix[j] = matrix[j] + messageArray[i];
         }
         
